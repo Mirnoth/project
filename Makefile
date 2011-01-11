@@ -20,8 +20,8 @@ CFLAGS = -Wall -Wextra -std=c99 -pedantic
 #CFLAGS = -Wall -Wextra
 SDLFLAGS = `sdl-config --cflags --libs` -lSDL_image -lSDL_ttf
 
-Hedgewood: main.o SDLfunctions.o menu.o graphicUpdate.o about.o pathfinding
-	$(CC) $(SDLFLAGS) $(CFLAGS) -o Hedgewood main.o SDLfunctions.o menu.o graphicUpdate.o about.o pathfinding.o
+Hedgewood: main.o SDLfunctions.o menu.o graphicUpdate.o about.o highscore.o pathfinding.o
+	$(CC) $(SDLFLAGS) $(CFLAGS) -o Hedgewood main.o SDLfunctions.o menu.o graphicUpdate.o about.o highscore.o pathfinding.o
 
 main.o: main.c main.h SDLincludes.h
 	$(CC) $(SDLFLAGS) $(CFLAGS)  -c main.c SDLincludes.h
@@ -30,11 +30,14 @@ main.o: main.c main.h SDLincludes.h
 SDLfunctions.o: SDLfunctions.c SDLfunctions.h SDLincludes.h
 	$(CC) $(SDLFLAGS) $(CFLAGS) -c SDLfunctions.c SDLincludes.h
 
-menu.o: menu.c menu.h SDLincludes.h SDLfunctions.o about.o
-	$(CC) $(SDLFLAGS) $(CFLAGS) -c menu.c SDLincludes.h SDLfunctions.o about.o
+menu.o: menu.c menu.h SDLincludes.h SDLfunctions.o about.o highscore.o
+	$(CC) $(SDLFLAGS) $(CFLAGS) -c menu.c SDLincludes.h SDLfunctions.o about.o highscore.o
 	
 about.o: about.h about.c SDLfunctions.o
-		$(CC) $(SDLFLAGS) $(CFLAGS) -c about.c SDLincludes.h SDLfunctions.o
+	$(CC) $(SDLFLAGS) $(CFLAGS) -c about.c SDLincludes.h SDLfunctions.o
+
+highscore.o: highscore.c highscore.h SDLfunctions.o
+	$(CC) $(SDLFLAGS) $(CFLAGS) -c highscore.c SDLincludes.h SDLfunctions.o
 
 graphicUpdate.o: graphicUpdate.c graphicUpdate.h structs.h SDLincludes.h pathfinding.h SDLfunctions.o pathfinding.o
 	$(CC) $(SDLFLAGS) $(CFLAGS) -c graphicUpdate.c structs.h SDLincludes.h pathfinding.h SDLfunctions.o pathfinding.o
